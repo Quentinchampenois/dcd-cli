@@ -13,6 +13,12 @@ module Decidim::Cli::Utils
       lines[0]
     end
 
+    def get_current_branch
+      return "Not a git repository" unless Dir.exists?("#{@base_path}.git")
+
+      `git  branch`
+    end
+
     private def read_specific_file(filename : String)
       return if filename.blank?
 
