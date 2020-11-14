@@ -12,6 +12,12 @@ TODO: Write usage instructions here
 
 ## Development
 
+
+As we can see in `.gitignore` file, a `decidim-app/` folder is ignored. This folder has to be a decidim application, that you can create using `bundle exec rake development_app` for example. 
+For more information, refers to the [Decidim documentation](https://github.com/decidim/decidim/blob/develop/docs/development_guide.md)
+
+
+
 TODO: Write development instructions here
 
 ## Contributing
