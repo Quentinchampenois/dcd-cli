@@ -1,0 +1,9 @@
+name: decidim-cli-utils
+version: 0.1.0
+
+authors:
+  - quentinchampenois
+
+crystal: 0.35.1
+
+license: MIT

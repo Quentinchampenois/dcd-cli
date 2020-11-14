@@ -1,4 +1,5 @@
 require "option_parser"
+require "../libs/decidim-cli-utils/src/decidim-cli-utils"
 
 module Decidim::Cli
   VERSION = "0.1.0"
@@ -38,5 +39,6 @@ module Decidim::Cli
       "
     exit
   end
-  puts ARGV[0]
+
+  puts Decidim::Cli::Utils::Utils.new(ARGV[0]).get_ruby_version
 end
