@@ -61,7 +61,7 @@ module Decidim::Cli
     configs = {
       :current_git_branch => cli_utils.get_current_branch,
       :ruby_version       => cli_utils.get_ruby_version,
-      :decidim_version    => "",
+      :decidim_version    => cli_utils.get_decidim_version,
       :decidim_forge      => "",
       :decidim_branch     => "",
     }

@@ -25,4 +25,12 @@ describe Decidim::Cli::Utils do
       subject.get_current_branch.should eq("master")
     end
   end
+
+  describe "#get_decidim_version" do
+    it "returns the decidim version" do
+      subject.get_decidim_version.should be_a String
+
+      subject.get_decidim_version.should eq("0.24.0.dev")
+    end
+  end
 end

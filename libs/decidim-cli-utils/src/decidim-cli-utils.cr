@@ -13,6 +13,24 @@ module Decidim::Cli::Utils
       lines[0]
     end
 
+    def get_decidim_version(filename : String = "Gemfile.lock")
+      lines = read_specific_file(filename)
+
+      return "There is an issue with the Gemfile.lock file" if lines.nil?
+
+      decidim_version = "Decidim version not found in Gemfile.lock"
+
+      lines.each do |line|
+        if /decidim \((?!=).+/i =~ line
+          idx = line.strip.chars.index('(')
+
+          decidim_version = line.strip[idx+1..line.strip.size-2] unless idx.nil?
+        end
+      end
+
+      decidim_version
+    end
+
     def get_current_branch
       return "Not a git repository" unless Dir.exists?("#{@base_path}.git")
 
