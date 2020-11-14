@@ -10,7 +10,7 @@ module Decidim::Cli::Utils
 
       return "Undefined ruby version" if lines.nil?
 
-      lines.first
+      lines[0]
     end
 
     private def read_specific_file(filename : String)
