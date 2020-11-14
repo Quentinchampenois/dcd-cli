@@ -6,17 +6,13 @@ module Decidim::Cli
 
   struct Cli
     property banner = "Welcome to Decidim Tool CLI !"
+    property decidim_app_path
 
-    def initialize(@argv : Array(String))
+    def initialize(@decidim_app_path : String = "")
     end
 
     def start(&block)
       set_option_parser
-
-      if ARGV.empty?
-        puts folder_path_missing
-        exit
-      end
 
       yield
     end
@@ -25,18 +21,8 @@ module Decidim::Cli
       OptionParser.parse do |parser|
         parser.banner = banner
 
-        parser.on "-rv", "--ruby-version", "Show Decidim ruby version" do
-          puts "Current ruby version :"
-        end
-
-        parser.on "-v", "--version", "Show Decidim version" do
-          puts "Decidim version"
-          # puts Configs.new("decidim-app/.ruby-version").get_ruby_version
-
-        end
-
         parser.on "-cliv", "--cli-version", "Show CLI version" do
-          puts "version 1.0"
+          puts "version #{Decidim::Cli::VERSION}"
         end
 
         parser.on "-h", "--help", "Show help" do
@@ -46,7 +32,7 @@ module Decidim::Cli
       end
     end
 
-    private def folder_path_missing
+    def folder_path_missing
       "No Decidim application found, please use command as following :
           crystal run src/decidim-cli.cr [PATH_TO_DECIDIM_APP]
 
@@ -59,7 +45,17 @@ module Decidim::Cli
     end
   end
 
-  Cli.new(ARGV).start do
-    puts Decidim::Cli::Utils::Utils.new(ARGV[0]).get_ruby_version
+  CLI_APP = Cli.new
+
+  CLI_APP.start do
+    if ARGV.empty?
+      puts CLI_APP.folder_path_missing
+
+      exit
+    end
+
+    CLI_APP.decidim_app_path = ARGV[0]
+
+    puts Decidim::Cli::Utils::Utils.new(CLI_APP.decidim_app_path).get_ruby_version
   end
 end
