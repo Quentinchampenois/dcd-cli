@@ -56,6 +56,18 @@ module Decidim::Cli
 
     CLI_APP.decidim_app_path = ARGV[0]
 
-    puts Decidim::Cli::Utils::Utils.new(CLI_APP.decidim_app_path).get_ruby_version
+    cli_utils = Decidim::Cli::Utils::Utils.new(CLI_APP.decidim_app_path)
+
+    configs = {
+      :current_git_branch => "",
+      :ruby_version => "",
+      :decidim_version => "",
+      :decidim_forge => "",
+      :decidim_branch => "",
+    }
+
+    configs[:ruby_version] = cli_utils.get_ruby_version
+
+    puts configs
   end
 end
