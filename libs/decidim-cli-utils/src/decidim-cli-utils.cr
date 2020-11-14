@@ -32,9 +32,10 @@ module Decidim::Cli::Utils
     end
 
     def get_current_branch
+      add_slash_to_base_path unless valid_folder_format?
       return "Not a git repository" unless Dir.exists?("#{@base_path}.git")
 
-      `git  branch`
+      %x(cd #{@base_path} && git branch --show-current).chomp
     end
 
     private def read_specific_file(filename : String)
