@@ -31,6 +31,49 @@ module Decidim::Cli::Utils
       decidim_version
     end
 
+    def get_decidim_forge(filename : String = "Gemfile")
+      lines = read_specific_file(filename)
+
+      return "There is an issue with the Gemfile file" if lines.nil?
+
+      decidim_forge = "Decidim forge not found in Gemfile"
+
+      lines.each do |line|
+        if /^gem \"decidim".+/ =~ line
+          idx = if !line.split(' ').index("path:").nil?
+                  line.split(' ').index("path:")
+                else if !line.split(' ').index("git:").nil?
+                  line.split(' ').index("git:")
+                else
+                  nil
+                end
+          end
+
+          decidim_forge = line.split(' ')[idx + 1].split('"')[1] unless idx.nil?
+        end
+      end
+
+      decidim_forge
+    end
+
+    def get_decidim_branch(filename : String = "Gemfile")
+      lines = read_specific_file(filename)
+
+      return "There is an issue with the Gemfile file" if lines.nil?
+
+      decidim_branch = "Decidim branch not specified, consider using the default branch for the given repository"
+
+      lines.each do |line|
+        #puts line
+        if /^gem \"decidim".+/ =~ line
+          idx = line.split(' ').index("branch:")
+          decidim_branch = line.split(' ')[idx + 1].split('"')[1] unless idx.nil?
+        end
+      end
+
+      decidim_branch
+    end
+
     def get_current_branch
       add_slash_to_base_path unless valid_folder_format?
       return "Not a git repository" unless Dir.exists?("#{@base_path}.git")
